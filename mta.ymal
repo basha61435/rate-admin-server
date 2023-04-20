@@ -1,0 +1,11 @@
+ID: rate-admin-server
+version: 1.2.23
+modules:
+  - name: rate-admin-server
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build

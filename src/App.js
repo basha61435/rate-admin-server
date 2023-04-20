@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Login from './components/views/Login'
+import CiServer from './components/CiServer/CiServer'
+import CustomersManagement from './components/Customers/CustomersManagement'
+import CompanyManagement from './components/Companies/CompanyManagement'
+import Profile from './components/views/Profile'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   
+    
+    <Routes>
+      <Route path='/' element={<Login />} />
+      
+      <Route path="/ciServers" element={<CiServer />} />
+      <Route path="/customersManagement" element={<CustomersManagement />} />
+      <Route path='/companyManagement' element={<CompanyManagement />} />
+      <Route path='/profile' element={<Profile/>}/>
+      
+    </Routes>
+    
+  )
 }
 
-export default App;
+export default App

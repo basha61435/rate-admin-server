@@ -1,0 +1,27 @@
+.sidebar {
+    background: rgb(0,7,61);
+    color:white;
+    height: 100vh;
+}
+.route-name
+{
+    text-decoration: none;
+    color:azure;
+    align:center;
+   
+
+}
+Link:hover{
+    background-color: rgb(245, 245, 239);
+    border-right: 10px;
+}
+.icon{
+    margin-left: 6px;
+}
+.cmp-name{
+   margin-left: 6px; 
+   margin-top: 2px;
+}
+.search-box{
+    margin-right: 10px;
+}
