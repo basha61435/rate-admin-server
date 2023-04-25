@@ -18,3 +18,7 @@
     background-color:#5AB1BB;
     color:#fff;
 }
+.active{
+    background-color:blue;
+    color:white;
+}

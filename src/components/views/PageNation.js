@@ -6,10 +6,10 @@ const PageNation = (props) => {
     const [currentItems, setCurrentItems] = useState([]);
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState(0);
-    const [endOffset,setEndOffset]=useState(0)
+    // const [endOffset,setEndOffset]=useState(0)
     const recoardsPerPage = 10;
     useEffect(() => {
-        setEndOffset(itemOffset + recoardsPerPage);
+       const endOffset=itemOffset + recoardsPerPage;
         setCurrentItems(data.slice(itemOffset, endOffset));
         console.log("jsdbvhfs ",itemOffset ,"  ",endOffset)
         console.log("current page ", currentItems)
@@ -25,7 +25,7 @@ const PageNation = (props) => {
     pageData(currentItems);
     return (
         <>
-             <div>Showing {itemOffset+1} to{endOffset} of {data.length} entries</div>
+             <div>Showing {itemOffset+1} to {currentItems.length} of {data.length} entries</div>
             <ReactPaginate
                 breakLabel="..."
                 nextLabel="Next"
