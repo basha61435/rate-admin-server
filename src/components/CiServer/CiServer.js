@@ -6,9 +6,13 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-
+import PageNation from '../views/PageNation';
+import '../../assests/Styles/Pagination.css'
 const Ciserver = () => {
   const [ciServerData, setCiServerData] = useState([]);
+       const[pageRecoards,setPageRecoards]=useState([])
+  // const [startIndex,setStartIndex]=useState('0');
+  // const[lastIndex,setLastIndex]=useState('10')
   const searchKeys = ['name', 'url', 'hostedType', 'username', 'createdBy', 'creationDate', 'lastModifiedBy', 'lastModifiedDate']
   const [search, setSearch] = useState('')
   const [isEdit, setIsEdit] = useState(false);
@@ -30,9 +34,13 @@ const Ciserver = () => {
         const { data } = res;
 
         setCiServerData(data)
-        console.log(data);
       }, (err) => console.log(err)
     )
+  }
+  const pageData=(recoards)=>{
+    setPageRecoards('');
+    setPageRecoards(recoards);
+    console.log("page Recoards are ",pageRecoards)
   }
   const Add = () => {
     ErraseData()
@@ -97,15 +105,11 @@ const Ciserver = () => {
       })
   }
   const ErraseData = () => {
-
     setId('')
     setName('');
     setUrl('');
     setUserName('');
     setPassword('');
-
-
-
   }
   return (
     <div className='d-flex w-100 h-100'>
@@ -147,7 +151,7 @@ const Ciserver = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {ciServerData.filter((user) => searchKeys
+                    {pageRecoards.filter((user) => searchKeys
                       .some((searchKeys) => user[searchKeys]
                         .toLowerCase().includes(search.toLowerCase())))
                       .map((ele, index) => {
@@ -162,18 +166,23 @@ const Ciserver = () => {
                             <td>{ele.lastModifiedBy}</td>
                             <td>{ele.lastModifiedDate}</td>
                             <td>
-                              <BiEdit className='m-1' onClick={() => Edit(ele)} />
-                              <AiOutlineDelete onClick={() => Delete(ele.id)} />
+                              <BiEdit className=' actions m-1' onClick={() => Edit(ele)}  />
+                              <AiOutlineDelete  className="actions" onClick={() => Delete(ele.id)} />
                             </td>
                           </tr>
                         )
 
                       })}
-
                   </tbody>
                 </table>
               </div>
+              <div className='row'>
+                {/* <div>Showing 1 to{pageRecoards.length} of {ciServerData.length} entries</div> */}
+              <PageNation data={ciServerData}  pageData={pageData}/>
+             
             </div>
+             </div>
+            
           </div>
         </div>
       </div>
@@ -184,7 +193,6 @@ const Ciserver = () => {
         <ModalHeader toggle={() => setIsEdit(!isEdit)}>
           {isAdd == true ? "Add New Customer" : "Edit Customer"}
         </ModalHeader>
-
         <ModalBody>
           <div className='container'>
             <div className='row'>

@@ -1,4 +1,5 @@
 import React from 'react'
+import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import Login from './components/views/Login'
 import CiServer from './components/CiServer/CiServer'

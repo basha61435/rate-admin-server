@@ -84,8 +84,8 @@ const CompanyManagement = () => {
                   <td></td>
                   <td></td>
                   <td>
-                    <button onClick={Edit}>Edit</button>
-                    <button onClick={Delete}>Delete</button>
+                    <button  className="actions" onClick={Edit}>Edit</button>
+                    <button  className="actions" onClick={Delete}>Delete</button>
                   </td>
                 </tbody>
               </table>

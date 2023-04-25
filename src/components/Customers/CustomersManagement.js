@@ -169,8 +169,8 @@ const CustomersManagement = () => {
                             <td>{ele.tenantName}</td>
                             <td>{ele.admin == true ? "Yes" : "No"}</td>
                             <td>
-                              <BiEdit className='m-1' onClick={() => Edit(ele)} />
-                              <AiOutlineDelete onClick={() => Delete(ele.id)} />
+                              <BiEdit className='actions m-1' onClick={() => Edit(ele)} />
+                              <AiOutlineDelete  className="actions" onClick={() => Delete(ele.id)} />
                             </td>
                           </tr>
                         )
