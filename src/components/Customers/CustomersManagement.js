@@ -6,8 +6,11 @@ import { BiEdit } from 'react-icons/bi'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import axios from 'axios'
 import Form from 'react-bootstrap/form'
+import PageNation from '../views/PageNation'
 const CustomersManagement = () => {
   const [cusData, setCusData] = useState([]);
+  const [pageRecoards,setPageRecoards]=useState([])
+  const [cname,setCname]=useState([]);
   const searchKeys = ['firstName', 'lastName', 'email', 'phone'];
   const [search, setSearch] = useState('');
   const [isAdd, setIsAdd] = useState(false)
@@ -20,13 +23,26 @@ const CustomersManagement = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
-  const [isActive, setIsActive] = useState('0');
+  const [isActive, setIsActive] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
+  
   useEffect(() => {
+    // CompnayName();
     CustomersData();
   }, [])
+  // const CompnayName=()=>{
+  //   axios.get('http://localhost:8084/rateadmin/api/admin/compnyNames')
+  //             .then((res)=>{
+  //               const {data}=res
+  //                 console.log(data);
+  //             },(err)=>console.log(err))
+  // }
   const CustomersData = () => {
-    axios.get(`http://localhost:8080/saparate/api/jenkins/userManagement/customers`).then(
+    axios.get(`http://localhost:8080/saparate/api/jenkins/userManagement/customers`,{
+      headers:{
+       "X-TENANT-NAME":"rodev"
+      }
+    }).then(
       (res) => {
         const { data } = res;
 
@@ -34,6 +50,11 @@ const CustomersManagement = () => {
         console.log(data);
       }, (err) => console.log(err)
     )
+  }
+  const pageData=(recoards)=>{
+    // setPageRecoards('');
+    setPageRecoards(recoards);
+    console.log("page Recoards are ",pageRecoards)
   }
   const Add = () => {
     setIsAdd(true);
@@ -58,6 +79,7 @@ const CustomersManagement = () => {
     // setId(eid);
   }
   const custAddOrEdit = () => {
+    alert(isActive+" "+isAdmin+" "+company);
     axios.post(`http://localhost:8080/saparate/api/jenkins/users/user`,
       {
         id: id,
@@ -117,21 +139,24 @@ const CustomersManagement = () => {
   return (
     <div className='d-flex w-100 h-100'>
       <Sidebar />
-      <div className='w-100 h-100 m-3'>
-        <div className=' fw-bolder'>Customers List</div>
-        <div> {message != null ? <div className='text-success p-3'>{message}</div> : ""} </div>
-        <div className='main-content'>
+      <div className='w-100 h-100 '>
+        <div className=' fw-bolder m-3'>Customers List</div>
+        <div> {message != null ? <div className='text-success'>{message}</div> :<div/>} </div>
+        <div className='main-content m-3'>
           <div className='card'>
-            <div className='card-header d-flex justify-content-between'>
-              <div className='d-flex text-center'>Customers
+            <div className='card-body'>
+              <div className='d-flex justify-content-between'>
+            <div className='d-flex text-center'>Customers
                 <select class="form-control-sm">
+                  
                   <option>rodev-rodev</option>
                   <option>sapcc-sapcc</option>
                 </select>
               </div>
-              <div><GrAddCircle className='fs-4 ' onClick={() => Add()} /></div>
-            </div>
-            <div className='card-body'>
+             
+              <div><GrAddCircle className='fs-4 actions' onClick={() => Add()} /></div>
+              </div>
+              <hr/>
               <div className='d-flex justify-content-between'>
                 <div className='d-flex'>Shows <input type='text' value={10} className='form-control form-control-sm' style={{ width: '50px' }} />  Entries</div>
                 <div className='d-flex'>
@@ -141,7 +166,7 @@ const CustomersManagement = () => {
               </div>
               <hr />
               <div className='table-data'>
-                <table className='table'>
+                <table className='table table-responsive text-nowrap table-sm small'>
                   <thead>
                     <tr>
                       <td>FIRST NAME</td>
@@ -155,7 +180,7 @@ const CustomersManagement = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cusData.filter((user) => searchKeys
+                    {pageRecoards.filter((user) => searchKeys
                       .some((searchKeys) => user[searchKeys].toLowerCase()
                         .includes(search.toLowerCase())))
                       .map((ele, index) => {
@@ -177,7 +202,7 @@ const CustomersManagement = () => {
                       })}
                   </tbody>
                 </table>
-
+                      <PageNation data={cusData} pageData={pageData}/>
               </div>
             </div>
           </div>
@@ -221,23 +246,24 @@ const CustomersManagement = () => {
                 <div>Is Active</div>
                 <Form.Select className='form-control ' aria-label="Default select example"
                   value={isActive} onChange={(e) => setIsActive(e.target.value)}>
-                  <option vlaue="1">Active</option>
-                  <option vlaue="0">InActive</option>
+                  <option value='1'>Active</option>
+                  <option value='2'>InActive</option>
                 </Form.Select>
               </div>
               <div className='col'>
                 <div>Company</div>
                 <Form.Select className='form-control ' aria-label="Default select example"
                   value={company} onChange={(e) => setCompany(e.target.value)}>
-                  <option vlaue="b1">b1</option>
-                  <option vlaue="dev">dev</option>
+                    <option>Select Compnay</option>
+                  <option value='b1'>b1</option>
+                  <option value='dev'>dev</option>
                 </Form.Select>
                 {/* <input type='text' placeholder='Company' className='form-control ' /> */}
               </div>
             </div>
             <div className='row mt-4'>
               <div className='col d-flex' >
-                <input type='checkbox' vlaue={isAdmin} onChange={() => setIsAdmin(true)} /><div className='m-1'>Is Admin</div>
+                <input type='checkbox' checked={isAdmin} value={isAdmin} onChange={() => setIsAdmin(!isAdmin)} /><div className='m-1'>Is Admin</div>
               </div>
             </div>
           </div>

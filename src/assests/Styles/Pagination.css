@@ -1,18 +1,19 @@
+.show-items
+{
+   display: flex;
+   justify-content:space-between;
+}
 .pagination{
-    
     list-style: none;
-    justify-content: right;
     align-items: center;
     gap:5px;
-   
 }
 .page-num{
     border: 1px solid rgb(162, 243, 243);
     text-decoration: none;
-    padding: 5px;
+    padding:5px;
     cursor: pointer;
-    border-radius: 3px;
-
+    border-radius: 10px 5px;
 }
 .page-num:hover{
     background-color:#5AB1BB;

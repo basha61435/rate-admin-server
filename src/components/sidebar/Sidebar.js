@@ -7,8 +7,8 @@ import { GiRamProfile, GiCompanionCube } from 'react-icons/gi'
 import { Link } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-const Sidebar = ({ children }) => {
-    const [isOpen, setISOpen] = useState(false);
+const Sidebar = () => {
+    const [isOpen, setISOpen] = useState(true);
     const toggle = () => {
         setISOpen(!isOpen)
     }
@@ -42,7 +42,7 @@ const Sidebar = ({ children }) => {
         }
     ]
     const renderTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
+        <Tooltip >
        {!isOpen &&  <div>{props}</div> }
         </Tooltip>
       );
@@ -62,8 +62,9 @@ const Sidebar = ({ children }) => {
 
                             <OverlayTrigger
                                 placement="right"
-                                delay={{ show: 350, hide: 400 }}
+                                // delay={{ show: 350, hide: 300 }}
                                 overlay={renderTooltip(routes.name)}
+                              
                             >
                                 <div className='icon fs-4'>{routes.icon}</div>
                             </OverlayTrigger>
@@ -78,7 +79,7 @@ const Sidebar = ({ children }) => {
                 })}
 
             </motion.div>
-            <div>{children}</div>
+            {/* <div>{children}</div> */}
         </div>
     )
 }

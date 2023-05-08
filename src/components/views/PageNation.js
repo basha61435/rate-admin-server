@@ -24,8 +24,8 @@ const PageNation = (props) => {
     };
     pageData(currentItems);
     return (
-        <>
-             <div>Showing {itemOffset+1} to {currentItems.length} of {data.length} entries</div>
+        <div className='show-items'>
+             <div >Showing {itemOffset+1} to {currentItems.length+itemOffset} of {data.length} entries</div>
             <ReactPaginate
                 breakLabel="..."
                 nextLabel="Next"
@@ -41,7 +41,7 @@ const PageNation = (props) => {
                 activeLinkClassName='active'
             />
 
-        </>
+        </div>
     )
 }
 

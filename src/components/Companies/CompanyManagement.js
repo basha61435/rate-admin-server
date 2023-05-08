@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../sidebar/Sidebar'
 import { GrAddCircle } from 'react-icons/gr'
 import Form from 'react-bootstrap/Form';
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import axios from 'axios';
+import PageNation from '../views/PageNation';
 const CompanyManagement = () => {
+  const [companyData,setCompanyData]=useState([]);
+  const [pageRecoards,setPageRecoards]=useState([]);
   const [message, setMessage] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -13,8 +17,25 @@ const CompanyManagement = () => {
   const [isSapCloud, setIsSapCloud] = useState(false);
   const [isHana, setIsHana] = useState(false)
   const [isABAP, setIsABAP] = useState(false);
-  const [isOnPremise, setIsOnPremise] = useState(false)
-  const [isSapCpi, setIsSapCpi] = useState(false)
+  const [isOnPremise, setIsOnPremise] = useState(false);
+  const [isSapCpi, setIsSapCpi] = useState(false);
+  const [id,setId]=useState('');
+  useEffect(()=>{
+    CompanyDetails();
+  },[]);
+  const CompanyDetails=()=>{
+    axios.get(`http://localhost:8080/rateadmin/api/admin/companies`)
+    .then((res)=>{
+      const {data}=res;
+      setCompanyData(data);
+      console.log("data ",data)
+    },(err)=>console.log(err))
+  }
+  const pageData=(recoards)=>{
+    // setPageRecoards('');
+    setPageRecoards(recoards);
+    console.log("page Recoards are ",pageRecoards)
+  }
   const Add = () => {
     setIsAdd(true);
     setIsEdit(true);
@@ -36,17 +57,17 @@ const CompanyManagement = () => {
   return (
     <div className='d-flex w-100 h-100'>
       <Sidebar />
-      <div className='w-100 h-100 m-3'>
-        <div className='mt-3 fw-bolder'>Companies List</div>
-        {message != null ? <div className='text-success'>{message}</div> : ''}
+      <div className='w-100 h-100'>
+        <div className='mt-3 fw-bolder  m-3'>Companies List</div>
+        {message != null ? <div className='text-success'>{message}</div> : <div/>}
+        <div className='main-content m-3'>
         <div className='card'>
-          <div className='card-header'>
-            <div className='header d-flex justify-content-between'>
-              <div >Companies</div>
-              <div><GrAddCircle className='fs-4 ' onClick={() => Add()} /></div>
-            </div>
-          </div>
           <div className='card-body'>
+          <div className='header d-flex justify-content-between'>
+              <div >Companies</div>
+              <div><GrAddCircle className='fs-4 actions' onClick={Add} /></div>
+            </div>
+            <hr/>
             <div className='title d-flex justify-content-between'>
               <div className='d-flex'>Shows
                 <input type='text' value={10} className='form-control form-control-sm' style={{ width: '50px' }} />
@@ -57,7 +78,7 @@ const CompanyManagement = () => {
             </div>
             <hr />
             <div className='table-data'>
-              <table className='table table-responsive'>
+              <table className='table table-responsive text-nowrap table-sm small'>
                 <thead>
                   <tr>
                     <th>COMPANY NAME</th>
@@ -73,24 +94,30 @@ const CompanyManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {pageRecoards.map((ele,index)=>{
+                    return(
+                  <tr key={index}>
+                  <td>{ele.name}</td>
+                  <td>{ele.sapSubaccountName}</td>
+                  <td>{ele.website}</td>
+                  <td>{ele.isActive==true ? "Active":"InActive"}</td>
+                  <td>{ele.subscriptions}</td>
+                  <td>{ele.activatedDate}</td>
+                  <td>{ele.renewalDate}</td>
+                  <td>{ele.tenantSettings.totalAdminLicenses}</td>
+                  <td>{ele.tenantSettings.totalUserLicenses}</td>
                   <td>
+                  <BiEdit className=' actions m-1' onClick={() => Edit(ele)}  />
+                  <AiOutlineDelete  className="actions" onClick={() => Delete(ele.id)} />
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <button  className="actions" onClick={Edit}>Edit</button>
-                    <button  className="actions" onClick={Delete}>Delete</button>
-                  </td>
+                  </tr>
+                 )})}
                 </tbody>
               </table>
+              <PageNation data={companyData} pageData={pageData}/>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <Modal isOpen={isEdit}

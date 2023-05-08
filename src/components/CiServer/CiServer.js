@@ -29,16 +29,16 @@ const Ciserver = () => {
     CiData();
   }, [])
   const CiData = () => {
-    axios.get(`http://localhost:8080/saparate/api/jenkins/ciservers`).then(
+    axios.get(`http://localhost:8084/rateadmin/admin/ciserverdata`,{withCredentials: true}).then(
       (res) => {
+        console.log("Server Data "+res);
         const { data } = res;
-
         setCiServerData(data)
       }, (err) => console.log(err)
     )
   }
   const pageData=(recoards)=>{
-    setPageRecoards('');
+    // setPageRecoards('');
     setPageRecoards(recoards);
     console.log("page Recoards are ",pageRecoards)
   }
@@ -114,15 +114,15 @@ const Ciserver = () => {
   return (
     <div className='d-flex w-100 h-100'>
       <Sidebar />
-      <div className='w-100 h-100 m-3'>
-        <div className=' fw-bolder'>CI Server List</div>
-        <div> {message != null ? <div className='text-success p-2'>{message}</div> : ""} </div>
-        <div className='main-content'>
-          <div className='card'>
+      <div className='w-100 h-100 m-1'>
+        <div className=' fw-bolder m-3'>CI Server List</div>
+        <div> {message != null ? <div className='text-success m-3'>{message}</div> : <div/>} </div>
+        <div className='main-content m-3'>
+          <div className='card '>
             <div className='card-body'>
               <div className='header d-flex justify-content-between'>
-                <div >CI Sever</div>
-                <div><GrAddCircle className='fs-4 ' onClick={() => Add()} /></div>
+                <div >CI Server</div>
+                <div><GrAddCircle className='fs-4 actions' onClick={() => Add()} /></div>
               </div>
               <hr />
               <div className='title d-flex justify-content-between'>
@@ -135,7 +135,7 @@ const Ciserver = () => {
               </div>
               <hr />
               <div className='table-data'>
-                <table className='table table-responsive '>
+                <table className='table table-responsive text-nowrap table-sm small'>
                   <thead>
                     <tr>
                       <th>NAME</th>
@@ -144,7 +144,6 @@ const Ciserver = () => {
                       <th>USERNAME</th>
                       <th>CREATED BY</th>
                       <th>CREATION DATE</th>
-
                       <th>LAST MODIFIED BY</th>
                       <th>LAST MODIFIED DATE</th>
                       <th>ACTIONS</th>
@@ -156,7 +155,7 @@ const Ciserver = () => {
                         .toLowerCase().includes(search.toLowerCase())))
                       .map((ele, index) => {
                         return (
-                          <tr key={index}>
+                          <tr key={index} >
                             <td>{ele.name}</td>
                             <td>{ele.url}</td>
                             <td>{ele.hostedType}</td>
@@ -218,7 +217,7 @@ const Ciserver = () => {
             <div className='row mt-4'>
               <div className='col-6 '>
                 <Form.Select className='form-control '
-                  onChange={(e) => setHostedType(e.target.value)}>
+                value={hostedType}  onChange={(e) => setHostedType(e.target.value)}>
                   <option vlaue="Shared">Shared</option>
                   <option vlaue="On-Premise">On-Premise</option>
                 </Form.Select>
