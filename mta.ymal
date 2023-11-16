@@ -2,7 +2,7 @@ ID: rate-admin-server
 version: 1.2.23
 modules:
   - name: rate-admin-server
-    type: html5
+    type: javascript.nodejs
     path: .
     build-parameters:
       builder: custom
