@@ -7,5 +7,6 @@ modules:
     build-parameters:
       builder: custom
       commands:
+        - npm install -g grunt-cli
         - npm install
         - npm run build
